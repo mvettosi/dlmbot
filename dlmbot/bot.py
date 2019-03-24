@@ -64,12 +64,15 @@ def contains_image(message):
 
 async def remind_submission(message):
     # Ignore non-kog-decks channels
-    if not message.channel.name or message.channel.name.startswith('kog-decks-'): return
+    if message.channel.name is None or not message.channel.name.startswith('kog-decks-'):
+        return
     # Ignore messages that does not contain a deck
-    if not contains_image(message): return
+    if not contains_image(message):
+        return
     # Skip if the user should not be reminded
     author = message.author
-    if not persistence.should_be_reminded(author.id): return
+    if not persistence.should_be_reminded(author.id):
+        return
 
     remind_message = '''
 Hey there! I noticed you just uploaded an image in a kog-decks channel.

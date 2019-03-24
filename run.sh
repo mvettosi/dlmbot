@@ -1,10 +1,11 @@
 #! /bin/bash
 
 DIR=$(realpath $(dirname run.sh ))
+APP_NAME=$(basename ${DIR})
 
-if [[ -z $(docker images -q dlmbot) ]]; then
+if [[ -z $(docker images -q ${APP_NAME}) ]]; then
     echo "Building docker image..."
-    docker build -t dlmbot ${DIR}
+    docker build -t ${APP_NAME} ${DIR}
 fi
 
-docker run -it --rm --volume ${DIR}:/app dlmbot
+docker run -it --rm --volume ${DIR}:/app ${APP_NAME}

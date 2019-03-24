@@ -8,4 +8,4 @@ setup(name='dlmbot',
       author_email='matteo.vettosi@gmail.com',
       license='MIT',
       packages=['dlmbot'],
-      zip_safe=False, install_requires=['discord'])
+      zip_safe=False)

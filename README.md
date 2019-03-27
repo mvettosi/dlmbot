@@ -1,6 +1,6 @@
 # cwcbot
 
-Discord bot writte in python to remind users that submit decks in a kog-decks channel, to do so on the website as well.
+Discord bot written in python to remind users that submit decks in a kog-decks channel, to do so on the website as well.
 
 It uses discord.py v.1.0.0a and tinydb for the persistence.
 

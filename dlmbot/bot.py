@@ -31,14 +31,14 @@ async def on_message(message):
 
 # Bot Commands
 @client.command(pass_context=True)
-async def setreminders(context, frequency=persistence.DEFAUT_FREQUENCY):
+async def remindon(context, frequency=persistence.DEFAUT_FREQUENCY):
     # Optimally we would use commands.check decorator, but it fails without explaining why
     if is_dm(context):
         persistence.set_frequency(context.message.author.id, frequency)
 
 
 @client.command(pass_context=True)
-async def noremainders(context):
+async def remindoff(context):
     # Optimally we would use commands.check decorator, but it fails without explaining why
     if is_dm(context):
         persistence.set_frequency(context.message.author.id, persistence.DEFAUT_FREQUENCY * 365)
@@ -75,19 +75,21 @@ async def remind_submission(message):
         return
 
     remind_message = '''
-Hey there! I noticed you just uploaded an image in a kog-decks channel.
-Good job!
-Why don't you go even further and post it on DLM offical website, too?
-Now you can do it by yourself!
-Just follow these instructions:
-    1) Go to https://www.duellinksmeta.com/top-decks/submit-your-deck/
-    2) Login using discord
-    3) Fill the form
-    4) Push the submit button
-    5) Done!
+Hello, I am Mordo! :robot:
 
-If you don't want to receive this reminder anymore, just use the
-`!noreminders` command.
+My robot senses are telling me that you just posted your King of Games deck in the Duel Links Meta discord.
+
+Thank you for that, we greatly appreciate your effort! └[ ∵ ]┘
+
+Did you know that you can also **submit your deck to the website**? This will make it appear in the top-decks section.
+
+You can do so here: https://www.duellinksmeta.com/top-decks/submit-your-deck/.
+
+Just fill in the form, add your cards, write up your notes and smash that submit button.
+
+If you don't want me to remind you anymore, just can do so by command `!remindoff`, I'm a robot after all. You can active me again with `!remindon`.
+
+In case you didn't shut me down, see you next month! I'll be back. [┐∵]┘
     '''
     await client.send_message(author, remind_message)
 

@@ -5,6 +5,8 @@ from discord.ext import commands
 from discord.enums import ChannelType
 from dlmbot import persistence
 import pprint
+import calendar
+import re
 
 client = Bot(command_prefix='!')
 
@@ -64,14 +66,19 @@ def contains_image(message):
 
 async def remind_submission(message):
     # Ignore non-kog-decks channels
-    if message.channel.name is None or not message.channel.name.startswith('kog-decks-'):
+    regex = f'^kog-decks-({"|".join([calendar.month_name[month_val].lower() for month_val in range(1, 13)])})'
+    pattern = re.compile(regex)
+    if message.channel.name is None or not pattern.match(message.channel.name):
+        print('Received message from a non-kog channel')
         return
     # Ignore messages that does not contain a deck
     if not contains_image(message):
+        print('Received message not containing an image')
         return
     # Skip if the user should not be reminded
     author = message.author
     if not persistence.should_be_reminded(author.id):
+        print(f'Author {author} should not be reminded at this time')
         return
 
     remind_message = '''

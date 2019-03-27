@@ -87,7 +87,7 @@ You can do so here: https://www.duellinksmeta.com/top-decks/submit-your-deck/.
 
 Just fill in the form, add your cards, write up your notes and smash that submit button.
 
-If you don't want me to remind you anymore, just can do so by command `!remindoff`, I'm a robot after all. You can active me again with `!remindon`.
+If you don't want me to remind you anymore, just can do so by command `!remindoff`, I'm a robot after all. You can activate me again with `!remindon`.
 
 In case you didn't shut me down, see you next month! I'll be back. [┐∵]┘
     '''

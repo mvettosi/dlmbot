@@ -11,6 +11,7 @@ There are two ways to run this bot.
 Requires python 3.6 installed.
 Follow these steps:
 ```bash
+python -m pip install -U git+https://github.com/Rapptz/discord.py@rewrite#egg=discord.py
 python -m pip install -r requirements.txt
 python -m pip install .
 python -m dlmbot

@@ -60,8 +60,14 @@ def is_image(text):
     return any(text.endswith(ext) for ext in extensionsToCheck)
 
 
+def contains_urls(string):
+    url_regex = 'http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\), ]|(?:%[0-9a-fA-F][0-9a-fA-F]))+'
+    urls = re.findall(url_regex, string)
+    return len(urls) > 0
+
+
 def contains_image(message):
-    return is_image(message.content) or any(is_image(attachment['filename']) for attachment in message.attachments)
+    return contains_urls(message.content) or any(is_image(attachment['filename']) for attachment in message.attachments)
 
 
 async def remind_submission(message):
@@ -94,7 +100,7 @@ You can do so here: https://www.duellinksmeta.com/top-decks/submit-your-deck/.
 
 Just fill in the form, add your cards, write up your notes and smash that submit button.
 
-If you don't want me to remind you anymore, just can do so by command `!remindoff`, I'm a robot after all. You can activate me again with `!remindon`.
+If you don't want me to remind you anymore, you can do so by using the command `!remindoff`, I'm a robot after all. You can activate me again with `!remindon`. Both commands will only work in this private channel.
 
 In case you didn't shut me down, see you next month! I'll be back. [┐∵]┘
     '''

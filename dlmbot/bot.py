@@ -2,7 +2,7 @@
 
 from discord.ext.commands import Bot
 from discord.ext import commands
-from discord.enums import ChannelType
+from discord.abc import PrivateChannel
 from dlmbot import persistence
 import pprint
 import calendar
@@ -35,24 +35,20 @@ async def on_message(message):
 @client.command(pass_context=True)
 async def remindon(context, frequency=persistence.DEFAUT_FREQUENCY):
     # Optimally we would use commands.check decorator, but it fails without explaining why
-    if is_dm(context):
+    if isinstance(context.message.channel, PrivateChannel):
         persistence.set_frequency(context.message.author.id, frequency)
 
 
 @client.command(pass_context=True)
 async def remindoff(context):
     # Optimally we would use commands.check decorator, but it fails without explaining why
-    if is_dm(context):
+    if isinstance(context.message.channel, PrivateChannel):
         persistence.set_frequency(context.message.author.id, persistence.DEFAUT_FREQUENCY * 365)
 
 
 # Functions
 def run_bot():
     client.run('NTU4NTczNzkxODc4MzE2MDMz.D3Y0eA.spp5cP99uc5J_3F56ZCVBnFR1Pk')
-
-
-def is_dm(context):
-    return context.message.channel.type == ChannelType.private
 
 
 def is_image(text):
@@ -67,14 +63,14 @@ def contains_urls(string):
 
 
 def contains_image(message):
-    return contains_urls(message.content) or any(is_image(attachment['filename']) for attachment in message.attachments)
+    return contains_urls(message.content) or any(is_image(attachment.filename) for attachment in message.attachments)
 
 
 async def remind_submission(message):
     # Ignore non-kog-decks channels
     regex = f'^kog-decks-({"|".join([calendar.month_name[month_val].lower() for month_val in range(1, 13)])})'
     pattern = re.compile(regex)
-    if message.channel.name is None or not pattern.match(message.channel.name):
+    if isinstance(message.channel, PrivateChannel) or message.channel.name is None or not pattern.match(message.channel.name):
         print('Received message from a non-kog channel')
         return
     # Ignore messages that does not contain a deck
@@ -104,6 +100,6 @@ If you don't want me to remind you anymore, you can do so by using the command `
 
 In case you didn't shut me down, see you next month! I'll be back. [┐∵]┘
     '''
-    await client.send_message(author, remind_message)
+    await author.send(remind_message)
 
     persistence.reminded(author.id)

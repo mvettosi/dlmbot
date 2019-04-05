@@ -1,4 +1,4 @@
-# cwcbot
+# dlmbot (Aka Mordo)
 
 Discord bot written in python to remind users that submit decks in a kog-decks channel, to do so on the website as well.
 

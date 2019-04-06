@@ -95,6 +95,7 @@ Did you know that you can also **submit your deck to the website**? This will ma
 You can do so here: https://www.duellinksmeta.com/top-decks/submit-your-deck/.
 
 Just fill in the form, add your cards, write up your notes and smash that submit button.
+**Gif showing you how to Submit**: https://imgur.com/a/dMjQTmE
 
 If you don't want me to remind you anymore, you can do so by using the command `!remindoff`, I'm a robot after all. You can activate me again with `!remindon`. Both commands will only work in our private conversation.
 

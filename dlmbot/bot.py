@@ -37,6 +37,7 @@ async def remindon(context, frequency=persistence.DEFAUT_FREQUENCY):
     # Optimally we would use commands.check decorator, but it fails without explaining why
     if isinstance(context.message.channel, PrivateChannel):
         persistence.set_frequency(context.message.author.id, frequency)
+        context.message.author.send('Remainders activated')
 
 
 @client.command(pass_context=True)
@@ -44,6 +45,7 @@ async def remindoff(context):
     # Optimally we would use commands.check decorator, but it fails without explaining why
     if isinstance(context.message.channel, PrivateChannel):
         persistence.set_frequency(context.message.author.id, persistence.DEFAUT_FREQUENCY * 365)
+        context.message.author.send('Remainders deactivated')
 
 
 # Functions
@@ -70,7 +72,8 @@ async def remind_submission(message):
     # Ignore non-kog-decks channels
     regex = f'^kog-decks-({"|".join([calendar.month_name[month_val].lower() for month_val in range(1, 13)])})'
     pattern = re.compile(regex)
-    if isinstance(message.channel, PrivateChannel) or message.channel.name is None or not pattern.match(message.channel.name):
+    if isinstance(message.channel, PrivateChannel) or message.channel.name is None or not pattern.match(
+            message.channel.name):
         print('Received message from a non-kog channel')
         return
     # Ignore messages that does not contain a deck

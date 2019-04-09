@@ -37,7 +37,7 @@ async def remindon(context, frequency=persistence.DEFAUT_FREQUENCY):
     # Optimally we would use commands.check decorator, but it fails without explaining why
     if isinstance(context.message.channel, PrivateChannel):
         persistence.set_frequency(context.message.author.id, frequency)
-        context.message.author.send('Remainders activated')
+        await context.message.author.send('Remainders activated')
 
 
 @client.command(pass_context=True)
@@ -45,7 +45,7 @@ async def remindoff(context):
     # Optimally we would use commands.check decorator, but it fails without explaining why
     if isinstance(context.message.channel, PrivateChannel):
         persistence.set_frequency(context.message.author.id, persistence.DEFAUT_FREQUENCY * 365)
-        context.message.author.send('Remainders deactivated')
+        await context.message.author.send('Remainders deactivated')
 
 
 # Functions

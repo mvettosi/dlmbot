@@ -1,8 +1,10 @@
 from tinydb import TinyDB, Query
+import os
 import time
 import pprint
 
-db = TinyDB('db.json')
+dirname = os.path.dirname(__file__)
+db = TinyDB(f"{dirname}/../data/db.json")
 DEFAUT_FREQUENCY = 86400
 
 '''
@@ -33,7 +35,8 @@ def reminded(user_id):
 
     user_data = db.get(Query().user_id == user_id)
     if user_data is None:
-        db.insert({'user_id': user_id, 'reminded': time.time(), 'frequency': DEFAUT_FREQUENCY})
+        db.insert({'user_id': user_id, 'reminded': time.time(),
+                   'frequency': DEFAUT_FREQUENCY})
     else:
         db.update({'reminded': time.time()}, Query().user_id == user_id)
 
@@ -48,7 +51,8 @@ def set_frequency(user_id, frequency):
 
     user_data = db.get(Query().user_id == user_id)
     if user_data is None:
-        db.insert({'user_id': user_id, 'reminded': time.time(), 'frequency': frequency})
+        db.insert({'user_id': user_id, 'reminded': time.time(),
+                   'frequency': frequency})
     else:
         db.update({'frequency': frequency}, Query().user_id == user_id)
 

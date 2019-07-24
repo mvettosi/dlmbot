@@ -1,58 +1,44 @@
 #!/usr/bin/env python3.7
 
-from discord.ext.commands import Bot
 from discord.ext import commands
 from discord.abc import PrivateChannel
-from dlmbot import persistence
-import pprint
+from utils import persistence
 import calendar
 import re
 
-client = Bot(command_prefix='!')
 
+class MordoCog(commands.Cog):
+    def __init__(self, bot):
+        self.bot = bot
+        self.config = bot.config
 
-# Startup
-@client.event
-async def on_ready():
-    print('Logged in as')
-    print(client.user.name)
-    print(client.user.id)
-    print('------')
+    # Message listener
+    @commands.Cog.listener()
+    async def on_message(self, message):
+        # Ignore messages from ourselves
+        if message.author == self.bot.user:
+            return
 
+        await remind_submission(message)
 
-# Message listener
-@client.event
-async def on_message(message):
-    # Ignore messages from ourselves
-    if message.author == client.user:
-        return
+    # Bot Commands
+    @commands.command(pass_context=True)
+    async def remindon(self, context, frequency=persistence.DEFAUT_FREQUENCY):
+        # Optimally we would use commands.check decorator, but it fails without explaining why
+        if isinstance(context.message.channel, PrivateChannel):
+            persistence.set_frequency(context.message.author.id, frequency)
+            await context.message.author.send('Remainders activated')
 
-    await remind_submission(message)
-    await client.process_commands(message)
-
-
-# Bot Commands
-@client.command(pass_context=True)
-async def remindon(context, frequency=persistence.DEFAUT_FREQUENCY):
-    # Optimally we would use commands.check decorator, but it fails without explaining why
-    if isinstance(context.message.channel, PrivateChannel):
-        persistence.set_frequency(context.message.author.id, frequency)
-        await context.message.author.send('Remainders activated')
-
-
-@client.command(pass_context=True)
-async def remindoff(context):
-    # Optimally we would use commands.check decorator, but it fails without explaining why
-    if isinstance(context.message.channel, PrivateChannel):
-        persistence.set_frequency(context.message.author.id, persistence.DEFAUT_FREQUENCY * 365)
-        await context.message.author.send('Remainders deactivated')
+    @commands.command(pass_context=True)
+    async def remindoff(self, context):
+        # Optimally we would use commands.check decorator, but it fails without explaining why
+        if isinstance(context.message.channel, PrivateChannel):
+            persistence.set_frequency(
+                context.message.author.id, persistence.DEFAUT_FREQUENCY * 365)
+            await context.message.author.send('Remainders deactivated')
 
 
 # Functions
-def run_bot():
-    client.run('NTU4NTczNzkxODc4MzE2MDMz.D3Y0eA.spp5cP99uc5J_3F56ZCVBnFR1Pk')
-
-
 def is_image(text):
     extensionsToCheck = ['.jpg', '.png', '.jpeg']
     return any(text.endswith(ext) for ext in extensionsToCheck)
@@ -107,3 +93,7 @@ In case you didn't shut me down, see you next month! I'll be back. [┐∵]┘
     await author.send(remind_message)
 
     persistence.reminded(author.id)
+
+
+def setup(bot):
+    bot.add_cog(MordoCog(bot))

@@ -20,18 +20,18 @@ DEFAUT_FREQUENCY = 86400
 
 
 def should_be_reminded(user_id):
-    print('')
-    print('DEBUG should_be_reminded: database content')
-    pprint.pprint(db.all())
+    # print('')
+    # print('DEBUG should_be_reminded: database content')
+    # pprint.pprint(db.all())
 
     user_data = db.get(Query().user_id == user_id)
     return user_data is None or time.time() - user_data['reminded'] > user_data['frequency']
 
 
 def reminded(user_id):
-    print('')
-    print('DEBUG reminded: database content before')
-    pprint.pprint(db.all())
+    # print('')
+    # print('DEBUG reminded: database content before')
+    # pprint.pprint(db.all())
 
     user_data = db.get(Query().user_id == user_id)
     if user_data is None:
@@ -40,14 +40,14 @@ def reminded(user_id):
     else:
         db.update({'reminded': time.time()}, Query().user_id == user_id)
 
-    print('DEBUG reminded: database content after')
-    pprint.pprint(db.all())
+    # print('DEBUG reminded: database content after')
+    # pprint.pprint(db.all())
 
 
 def set_frequency(user_id, frequency):
-    print('')
-    print('DEBUG set_frequency: database content before')
-    pprint.pprint(db.all())
+    # print('')
+    # print('DEBUG set_frequency: database content before')
+    # pprint.pprint(db.all())
 
     user_data = db.get(Query().user_id == user_id)
     if user_data is None:
@@ -56,5 +56,5 @@ def set_frequency(user_id, frequency):
     else:
         db.update({'frequency': frequency}, Query().user_id == user_id)
 
-    print('DEBUG set_frequency: database content after')
-    pprint.pprint(db.all())
+    # print('DEBUG set_frequency: database content after')
+    # pprint.pprint(db.all())

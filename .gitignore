@@ -1,5 +1,6 @@
 .idea/
 db.json
-dlmbot/__pycache__
 data/config.json
 data/config.json.prod
+**/__pycache__
+venv/

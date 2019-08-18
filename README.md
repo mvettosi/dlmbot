@@ -1,25 +1,31 @@
 # dlmbot (Aka Mordo)
 
-Discord bot written in python to remind users that submit decks in a kog-decks channel, to do so on the website as well.
+Discord bot written in python to provide functionalities to the Duel Links Meta discord server.
+Currently, the bot includes the following features:
+- Mordo, to remind users that submit decks in a kog-decks channel, to do so on the website as well
 
-It uses discord.py v.1.0.0a and tinydb for the persistence.
+The bot uses discord.py and tinydb for the persistence.
 
-## To run this bot
-There are two ways to run this bot.
+## Run this bot
+The bot requires python 3.6 installed on the system.
+Follow these steps to run the bot on your own (Unix-based) machine.
 
-### Directly
-Requires python 3.6 installed.
-Follow these steps:
+### Create a test Bot Token
+The bot will need a test token to run. To get one simply follow this guide: https://www.writebots.com/discord-bot-token/ (you can skip the part about getting an icon =P).
+
+### Create a configuration file
+Now that you have a token, copy-paste the `data/config.json.example` into a file named `data/config.json` and insert the token into the related field.
+
+### Create a python venv (Virtual Environment) and install dependencies
+Now you want to create an encapsulated environment to install the project dependencies without messing with the system or user scope of your python installation.
+Do achieve this, use the following commands:
 ```bash
-python -m pip install -U git+https://github.com/Rapptz/discord.py@rewrite#egg=discord.py
+python -m venv venv
+source venv/bin/activate
 python -m pip install -r requirements.txt
-python -m pip install .
-python -m dlmbot
+python ./bot.py
 ```
-
-### Docker
-Requires docker installed locally.
-Just run
-```bash
-./run.sh
+When you are done, to exit the virtual environment, just run the command
+```
+deactivate
 ```
